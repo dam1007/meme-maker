@@ -1,3 +1,4 @@
+const saveBtn = document.getElementById('save');
 const textInput = document.getElementById('text');
 const fileInput = document.getElementById('fileInput');
 
@@ -15,6 +16,7 @@ const CANVAS_HEIGHT = 800;
 canvas.width = CANVAS_WIDTH;
 canvas.height = CANVAS_HEIGHT;
 ctx.lineWidth = 2;
+ctx.lineCap = 'round';
 let isPainting = false;
 let isFilling = false;
 
@@ -152,8 +154,8 @@ function onFileChange(e) {
     //이미지 로드 시, 이벤트
     image.onload = function() {
         //drawImage는 이미지를 필요.
-        ctx.drawImage(image, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT); 
-        fileInput.value = null;
+        ctx.drawImage(image, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+        // fileInput.value = null;
     }
 }
 
@@ -163,11 +165,28 @@ fileInput.addEventListener('change', onFileChange);
 // 10. 텍스트 도장찍기
 function onDoubleClick(e) {
     // console.log(e.offsetX, e.offsetY); // 마우스로 더블클릭한 좌표.
-    ctx.save(); //현재 상태, 색상 스타일 등 모든 것 저장.
     const text = textInput.value;
-    ctx.lineWidth = 1; //strokeText 이전에 선 굵기 바꾸기.
-    ctx.strokeText(text, e.offsetX, e.offsetY);
-    ctx.restore(); //저장했던 버전으로 되돌림. save, restore 사이는 어떤 수정을 하던 저장 x.
+    // textInput에 글자가 있을 때 실행
+    if (text !== '') {
+        ctx.save(); //현재 상태, 색상 스타일 등 모든 것 저장.
+        ctx.lineWidth = 1; //strokeText 이전에 선 굵기 바꾸기.
+        ctx.font = '68px serif'; //폰트 크기, 종류 바꾸기
+        ctx.strokeText(text, e.offsetX, e.offsetY);
+        ctx.restore(); //저장했던 버전으로 되돌림. save, restore 사이는 어떤 수정을 하던 저장 x.
+    }
+    
 }
 
 canvas.addEventListener('dblclick', onDoubleClick);
+
+
+// 11. 이미지 저장
+function onSaveImage() {
+    const url = canvas.toDataURL();
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'myDrawing.png';
+    a.click();
+}
+
+saveBtn.addEventListener('click', onSaveImage);
