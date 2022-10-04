@@ -127,8 +127,13 @@ canvas.addEventListener('click', onCanvasClick);
 
 // 7. 리셋 버튼 만들기 = 흰색으로 캔버스 전체를 칠하는 것
 function onResetClick() {
-    ctx.fillStyle = 'white';
-    ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+    const reset = confirm('정말 삭제하시겠습니까?');
+    if(reset) {
+        ctx.fillStyle = 'white';
+        ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+    } else {
+        return;
+    }
 }
 
 resetBtn.addEventListener('click', onResetClick);
@@ -190,3 +195,12 @@ function onSaveImage() {
 }
 
 saveBtn.addEventListener('click', onSaveImage);
+
+
+// 폰트 기능 추가 중
+function logLoaded(fontFace) {
+    const bitterFont = new FontFace('Bitter', 'url(https://fonts.gstatic.com/s/bitter/v7/HEpP8tJXlWaYHimsnXgfCOvvDin1pK8aKteLpeZ5c0A.woff2)');
+    document.fonts.add(bitterFont);
+    console.log(bitterFont.family, 'loaded successfully.');
+}
+logLoaded();
