@@ -1,3 +1,4 @@
+const fontSize = document.getElementById('font-size');
 const saveBtn = document.getElementById('save');
 const textInput = document.getElementById('text');
 const fileInput = document.getElementById('fileInput');
@@ -108,10 +109,10 @@ colorOptions.forEach(color => color.addEventListener('click', onColorClick));
 function onModeClick() {
     if(isFilling) {
         isFilling = false;
-        modeBtn.innerText = 'Fill';
+        modeBtn.innerText = '🩸 Fill';
     } else {
         isFilling = true;
-        modeBtn.innerText = 'Stroke';
+        modeBtn.innerText = '📏 Stroke';
     }
 }
 
@@ -175,7 +176,7 @@ function onDoubleClick(e) {
     if (text !== '') {
         ctx.save(); //현재 상태, 색상 스타일 등 모든 것 저장.
         ctx.lineWidth = 1; //strokeText 이전에 선 굵기 바꾸기.
-        ctx.font = '68px serif'; //폰트 크기, 종류 바꾸기
+        ctx.font = `${fontSize.value}px serif`; //폰트 크기, 종류 바꾸기
         ctx.strokeText(text, e.offsetX, e.offsetY);
         ctx.restore(); //저장했던 버전으로 되돌림. save, restore 사이는 어떤 수정을 하던 저장 x.
     }
@@ -195,12 +196,3 @@ function onSaveImage() {
 }
 
 saveBtn.addEventListener('click', onSaveImage);
-
-
-// 폰트 기능 추가 중
-function logLoaded(fontFace) {
-    const bitterFont = new FontFace('Bitter', 'url(https://fonts.gstatic.com/s/bitter/v7/HEpP8tJXlWaYHimsnXgfCOvvDin1pK8aKteLpeZ5c0A.woff2)');
-    document.fonts.add(bitterFont);
-    console.log(bitterFont.family, 'loaded successfully.');
-}
-logLoaded();
